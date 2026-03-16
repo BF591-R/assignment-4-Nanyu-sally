@@ -140,7 +140,24 @@ sorted differently. Please refer to discussions on lexicographical ordering vs.
 numeric ordering.
 
 ```{r code block to plot variance explained and cumulative variance explained, fig.cap = caption_4}
-#Create a ggplot2 with the plot described above, refer to the reference report
+variance_tibble <- variance_tibble %>%
+  mutate(
+    principal_components = factor(
+      principal_components,
+      levels = principal_components
+    )
+  )
+
+ggplot(variance_tibble, aes(x = principal_components)) +
+  geom_col(aes(y = variance_explained), fill = "steelblue") +
+  geom_point(aes(y = cumulative, group = 1), color = "red") +
+  geom_line(aes(y = cumulative, group = 1), color = "red") +
+  labs(
+    title = "Variance Explained by Principal Components",
+    x = "Principal Component",
+    y = "Proportion of Variance Explained"
+  ) +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
 
 ```
 
